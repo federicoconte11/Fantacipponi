@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
-app.secret_key = 'supersegretachiave'  # Cambia questa chiave per sicurezza
+app.secret_key = 'supersegretachiave'
 
 ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'password123'  # Cambiala in una più sicura
+ADMIN_PASSWORD = 'password123'
 settimana_corrente = 1
 
+# Logo percorso statico (modifica se lo chiami diversamente)
+LOGO_FANTACIPPONI = "/static/logo_fantacipponi.png"
 
-# Lista amici con logo
 amici = [
     {"nome": "Spina", "logo_url": "/static/Alessandro.jpg", "punti": 0},
     {"nome": "Federico", "logo_url": "/static/loghi/federico.jpg", "punti": 0},
@@ -20,7 +21,6 @@ amici = [
     {"nome": "Domenico", "logo_url": "/static/loghi/domenico_mazza.png", "punti": 0}
 ]
 
-# Azioni con punti e emoji
 azioni_possibili = [
     {"nome": "Serata giocata", "punti": 1, "emoji": "🎉"},
     {"nome": "Serata non giocata", "punti": 0, "emoji": "😴"},
@@ -71,52 +71,73 @@ azioni_possibili = [
     {"nome": "Ghostare ragazza interessata", "punti": -1.5, "emoji": "👻"},
 ]
 
-# Storico azioni per ogni giocatore
 storico_azioni = {amico['nome']: [] for amico in amici}
 
+def get_amico_by_nome(nome):
+    for amico in amici:
+        if amico['nome'] == nome:
+            return amico
+    return None
 
 @app.route('/')
 def home():
-    return render_template('home.html')
-
+    return render_template('home.html', logo_url=LOGO_FANTACIPPONI)
 
 @app.route('/giocatori')
 def giocatori():
-    return render_template('giocatori.html', amici=amici)
-
+    amici_ordinati = sorted(amici, key=lambda x: x['punti'], reverse=True)
+    return render_template('giocatori.html', amici=amici_ordinati, logo_url=LOGO_FANTACIPPONI)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
+            flash('Login effettuato con successo!', 'success')
             return redirect(url_for('admin'))
         else:
-            return render_template('login.html', errore='Credenziali errate.')
-    return render_template('login.html')
-
+            return render_template('login.html', errore='Credenziali errate.', logo_url=LOGO_FANTACIPPONI)
+    return render_template('login.html', logo_url=LOGO_FANTACIPPONI)
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    flash('Logout effettuato.', 'success')
     return redirect(url_for('home'))
-
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        nome_giocatore = request.form['giocatore']
-        azione_idx = int(request.form['azione'])
-        azione = azioni_possibili[azione_idx]
-        storico_azioni[nome_giocatore].append(azione)
-        return redirect(url_for('admin'))
+    messaggio = None
+    errore = None
 
-    return render_template('admin.html', amici=amici, azioni=azioni_possibili)
+    if request.method == 'POST':
+        nome_giocatore = request.form.get('giocatore')
+        azione_idx = request.form.get('azione')
+        if not nome_giocatore or azione_idx is None:
+            errore = "Compila tutti i campi!"
+        elif not get_amico_by_nome(nome_giocatore):
+            errore = f"Giocatore non valido: {nome_giocatore}."
+        elif not azione_idx.isdigit() or int(azione_idx) < 0 or int(azione_idx) >= len(azioni_possibili):
+            errore = "Azione non valida."
+        else:
+            azione = azioni_possibili[int(azione_idx)]
+            storico_azioni[nome_giocatore].append(azione)
+            messaggio = f"Azione assegnata a {nome_giocatore}: {azione['emoji']} {azione['nome']} ({azione['punti']} pt)"
+            flash(messaggio, "success")
+    
+    return render_template(
+        'admin.html',
+        amici=amici,
+        azioni=azioni_possibili,
+        messaggio=messaggio,
+        errore=errore,
+        logo_url=LOGO_FANTACIPPONI
+    )
 
 def calcola_punteggi_settimana():
     for amico in amici:
@@ -124,10 +145,7 @@ def calcola_punteggi_settimana():
         azioni = storico_azioni.get(nome, [])
         totale_settimana = sum(a['punti'] for a in azioni)
         amico['punti'] += totale_settimana
-
-        # svuota lo storico dopo aver calcolato la settimana
         storico_azioni[nome] = []
-
     global settimana_corrente
     settimana_corrente += 1
 
@@ -141,18 +159,23 @@ def live():
         giocatori_azioni.append({
             "nome": nome,
             "azioni": azioni,
-            "totale": totale
+            "totale": totale,
+            "punti": get_amico_by_nome(nome)['punti']
         })
+    giocatori_azioni = sorted(
+        giocatori_azioni,
+        key=lambda x: (x['punti'] + x['totale']),
+        reverse=True
+    )
+    return render_template('live.html', giocatori=giocatori_azioni, logo_url=LOGO_FANTACIPPONI)
 
-    return render_template('live.html', giocatori=giocatori_azioni)
 @app.route('/admin/calcola_settimana', methods=['POST'])
 def admin_calcola_settimana():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-
     calcola_punteggi_settimana()
+    flash("Settimana calcolata! Punteggi aggiornati.", "success")
     return redirect(url_for('admin'))
-
 
 if __name__ == '__main__':
     app.run(debug=True)
