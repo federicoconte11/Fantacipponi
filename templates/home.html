@@ -1,137 +1,35 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>FantaCipponi - Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,500,400&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #08142a 0%, #172956 70%, #274c7d 100%);
-            color: #ffe79b;
-            font-family: 'Urbanist', Arial, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 540px;
-            margin: 46px auto 0 auto;
-            text-align: center;
-            padding: 0 10px 20px 10px;
-        }
-        h1 {
-            margin-bottom: 28px;
-            font-size: 2.1em;
-            color: #fff7c2;
-            text-shadow: 0 2px 16px #30230044;
-            letter-spacing: 0.03em;
-        }
-        .logo-img {
-            width: 300px;
-            max-width: 92vw;
-            height: auto;
-            margin: 26px 0 18px 0;
-            border: 2.5px solid #ffe79b;
-            border-radius: 18px;
-            box-shadow: 0 2px 18px #0008;
-        }
-        .rules-card {
-            background: linear-gradient(90deg, #18243a 60%, #274c7d 100%);
-            border-radius: 22px;
-            box-shadow: 0 3px 22px #0005;
-            border: 2px solid #ffe79b2a;
-            padding: 22px 8vw 18px 8vw;
-            margin-bottom: 32px;
-            margin-top: 18px;
-        }
-        .rules-title {
-            color: #ffe79b;
-            font-size: 1.3em;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 7px #0006;
-        }
-        .rules-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 auto;
-            max-width: 320px;
-        }
-        .rules-list li {
-            background: #ffe79b1a;
-            margin: 10px 0;
-            padding: 10px 16px;
-            border-radius: 14px;
-            color: #fffbe8;
-            font-size: 1.07em;
-            box-shadow: 0 1px 8px #0002;
-            font-weight: 500;
-        }
-        .buttons-area {
-            margin: 30px 0 24px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            justify-content: center;
-        }
-        .button-gold {
-            font-size: 1.1em;
-            font-weight: 700;
-            padding: 13px 35px;
-            background: linear-gradient(90deg, #ffe79b 60%, #ffd900 100%);
-            color: #262326;
-            border: none;
-            border-radius: 26px;
-            cursor: pointer;
-            box-shadow: 0 3px 12px #ffe79b33, 0 2px 8px #0003;
-            transition: background 0.22s, color 0.22s, transform 0.18s;
-            outline: none;
-        }
-        .button-gold:hover {
-            background: #fffbe8;
-            color: #be9700;
-            transform: scale(1.07);
-        }
-        .footer {
-            margin-top: 40px;
-            color: #ffe79b77;
-            font-size: 15px;
-            text-shadow: 0 1px 4px #0003;
-        }
-        @media (max-width: 620px) {
-            .container { padding: 0 3vw; }
-            h1 { font-size: 1.18em; }
-            .rules-card { padding: 16px 4vw 13px 4vw; }
-            .logo-img { width: 94vw; }
-            .footer { font-size: 13px; }
-            .button-gold { padding: 13px 19vw; font-size: 1em; }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Benvenuto su FantaCipponi!</h1>
-        <img src="{{ url_for('static', filename='WhatsApp Image 2025-07-15 at 01.17.27.jpeg') }}" alt="Logo" class="logo-img">
+    <h1>Benvenuto su FantaCipponi!</h1>
+    <img src="{{ url_for('static', filename='WhatsApp Image 2025-07-15 at 01.17.27.jpeg') }}" alt="Logo" class="logo-img">
 
-        <div class="rules-card">
-            <div class="rules-title">Regole del FantaCipponi:</div>
-            <ul class="rules-list">
-                <li>1. NON PARLARE MAI DEL FANTACIPPONI</li>
-                <li>2. CHI INFRANGE REGOLE PERDE ONORE</li>
-                <li>3. LA GLORIA È SOLO PER CHI OSA!</li>
-            </ul>
-        </div>
+    <div class="rules">
+        Regole del FantaCipponi:
+        <ul class="rules-list">
+            <li>1. NON PARLARE MAI DEL FANTACIPPONI</li>
+            <li>2. CHI INFRANGE REGOLE PERDE ONORE</li>
+            <li>3. LA GLORIA È SOLO PER CHI OSA!</li>
+        </ul>
+    </div>
 
-        <div class="buttons-area">
-            <a href="{{ url_for('giocatori') }}"><button class="button-gold">Entra</button></a>
-            <a href="{{ url_for('live') }}"><button class="button-gold">Classifica Live</button></a>
-            <a href="{{ url_for('login') }}"><button class="button-gold">Admin</button></a>
-        </div>
-
-        <div class="footer">
-            &copy; 2025 FantaCipponi | powered by Ale & Fede
-        </div>
+    <div>
+        <a href="{{ url_for('giocatori') }}">
+            <button class="button-dark">Entra</button>
+        </a>
+        <a href="{{ url_for('live') }}">
+            <button class="button-dark">Classifica Live</button>
+        </a>
+        <a href="{{ url_for('login') }}">
+            <button class="button-dark">Admin</button>
+        </a>
+    </div>
+    <div class="footer">
+        &copy; {{ 2025 }} FantaCipponi | powered by Ale & Fede
     </div>
 </body>
 </html>

@@ -2,119 +2,48 @@
 <html>
 <head>
     <title>FantaCipponi - Admin</title>
-    <style>
-        body {
-            text-align: center;
-            margin-top: 40px;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
-        }
-        h1 {
-            margin-bottom: 35px;
-            letter-spacing: 1px;
-            color: #f1c40f;
-            font-size: 2.2rem;
-        }
-        .admin-container {
-            background: rgba(30, 30, 40, 0.92);
-            border-radius: 16px;
-            box-shadow: 0 2px 24px #00000055;
-            padding: 38px 28px 24px 28px;
-            display: inline-block;
-            margin-bottom: 30px;
-            min-width: 320px;
-        }
-        label {
-            font-size: 1.1rem;
-            color: #f1c40f;
-            font-weight: bold;
-        }
-        select, button {
-            padding: 10px 15px;
-            margin: 8px 0 18px 0;
-            font-size: 1.1rem;
-            border-radius: 7px;
-            border: none;
-        }
-        select {
-            min-width: 240px;
-            max-width: 350px;
-            background: #24243e;
-            color: #fff;
-        }
-        option {
-            white-space: normal !important; /* Per vedere tutto il testo nelle azioni */
-            font-size: 1rem;
-            background: #2c5364;
-            color: #fff;
-            padding: 6px;
-        }
-        button {
-            background-color: #f1c40f;
-            color: #1c1c1c;
-            font-weight: bold;
-            transition: background 0.2s, color 0.2s, transform 0.2s;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #ffda47;
-            color: #000;
-            transform: scale(1.04);
-        }
-        .nav-links {
-            margin-top: 35px;
-        }
-        .nav-link {
-            color: #f1c40f;
-            background: #232b3e;
-            border-radius: 6px;
-            padding: 8px 18px;
-            text-decoration: none;
-            margin: 0 12px;
-            font-weight: bold;
-            transition: background 0.22s, color 0.22s;
-        }
-        .nav-link:hover {
-            background: #f1c40f;
-            color: #24243e;
-        }
-        @media (max-width: 540px) {
-            .admin-container { min-width: 96vw; padding: 16px 3vw 10px 3vw;}
-            select { min-width: 94vw; max-width: 98vw; }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <img src="{{ url_for('static', filename='WhatsApp Image 2025-07-15 at 01.17.27.jpeg') }}" alt="Logo" class="logo-img">
     <h1>Admin - Assegna Azione a Giocatore</h1>
-    <div class="admin-container">
-        <form method="POST">
-            <label for="giocatore">Giocatore:</label><br>
-            <select name="giocatore" id="giocatore">
-                {% for amico in amici %}
-                    <option value="{{ amico.nome }}">{{ amico.nome }}</option>
-                {% endfor %}
-            </select>
-            <br><br>
-            <label for="azione">Azione:</label><br>
-            <select name="azione" id="azione" size="7" style="overflow-y:auto;">
-                {% for azione in azioni %}
-                    <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ '+' if azione.punti >= 0 else ''}}{{ azione.punti }} pt)</option>
-                {% endfor %}
-            </select>
-            <br>
-            <button type="submit">Assegna Azione</button>
-        </form>
-        <form action="{{ url_for('admin_calcola_settimana') }}" method="post" style="margin-top:16px;">
-            <button type="submit">Calcola Settimana</button>
-        </form>
-    </div>
 
-    <div class="nav-links">
-        <a href="{{ url_for('live') }}" class="nav-link">Vai al Live</a>
-        <a href="{{ url_for('giocatori') }}" class="nav-link">Torna ai Giocatori</a>
-        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+    {% if messaggio_successo %}
+        <div class="message-success">{{ messaggio_successo }}</div>
+    {% endif %}
+    {% if messaggio_errore %}
+        <div class="message-error">{{ messaggio_errore }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label for="giocatore">Giocatore:</label>
+        <select name="giocatore" id="giocatore" required>
+            {% for amico in amici %}
+                <option value="{{ amico.nome }}">{{ amico.nome }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="azione">Azione:</label>
+        <select name="azione" id="azione" required>
+           {% for azione in azioni %}
+                <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <button class="button-dark" type="submit">Assegna Azione</button>
+    </form>
+
+    <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
+        <button class="button-dark" type="submit">Calcola Settimana</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
+        <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
+        <a href="{{ url_for('home') }}" class="button-dark">Home</a>
+        <a href="{{ url_for('logout') }}" class="button-dark">Logout</a>
     </div>
 </body>
 </html>

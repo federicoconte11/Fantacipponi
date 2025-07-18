@@ -1,136 +1,35 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>FantaCipponi - Giocatori</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,500,400&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #08142a 0%, #172956 70%, #274c7d 100%);
-            color: #ffe79b;
-            font-family: 'Urbanist', Arial, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 650px;
-            margin: 48px auto 0 auto;
-            background: linear-gradient(110deg, #18243a 80%, #274c7d 100%);
-            border-radius: 26px;
-            box-shadow: 0 4px 30px #0007;
-            border: 2px solid #ffe79b44;
-            padding: 28px 24px 36px 24px;
-        }
-        h1 {
-            margin-bottom: 32px;
-            font-size: 2em;
-            color: #fff7c2;
-            letter-spacing: 0.02em;
-            text-shadow: 0 2px 16px #30230044;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            background: #fffbe80d;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 2px 15px #0002;
-        }
-        th, td {
-            border: none;
-            padding: 14px 12px;
-            text-align: center;
-            font-size: 1.11em;
-        }
-        th {
-            background: #ffe79b;
-            color: #18243a;
-            font-size: 1.07em;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            border-bottom: 2.5px solid #d2b500;
-            text-shadow: 0 1px 5px #fff6;
-        }
-        tr:nth-child(even) td {
-            background: #18243a88;
-        }
-        tr:nth-child(odd) td {
-            background: #274c7d66;
-        }
-        td {
-            color: #fffbe8;
-            font-weight: 500;
-        }
-        img {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 2px 13px #ffe79b66, 0 1px 7px #0003;
-            border: 2.5px solid #ffe79b77;
-        }
-        .buttons-area {
-            margin-top: 18px;
-            display: flex;
-            gap: 18px;
-            justify-content: center;
-        }
-        .button-gold {
-            font-size: 1.08em;
-            font-weight: 700;
-            padding: 12px 30px;
-            background: linear-gradient(90deg, #ffe79b 60%, #ffd900 100%);
-            color: #262326;
-            border: none;
-            border-radius: 26px;
-            cursor: pointer;
-            box-shadow: 0 3px 12px #ffe79b33, 0 2px 8px #0003;
-            transition: background 0.22s, color 0.22s, transform 0.18s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .button-gold:hover {
-            background: #fffbe8;
-            color: #be9700;
-            transform: scale(1.06);
-        }
-        @media (max-width: 700px) {
-            .container { max-width: 98vw; padding: 10px 2vw 28px 2vw; }
-            h1 { font-size: 1.19em; }
-            th, td { padding: 10px 4px; font-size: 0.98em; }
-            .button-gold { padding: 11px 7vw; font-size: 1em; }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>I Protagonisti del Gioco</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Logo</th>
-                    <th>Nome</th>
-                    <th>Punti Totali</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for amico in amici %}
-                <tr>
-                    <td>
-                        <img src="{{ amico.logo_url }}" alt="Logo di {{ amico.nome }}">
-                    </td>
-                    <td>{{ amico.nome }}</td>
-                    <td>{{ amico.punti }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="buttons-area">
-            <a href="{{ url_for('live') }}" class="button-gold">Vai al Live</a>
-            <a href="{{ url_for('home') }}" class="button-gold">Torna alla Home</a>
-        </div>
+    <h1>I Protagonisti del Gioco</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Logo</th>
+                <th>Nome</th>
+                <th>Punti Totali</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for amico in amici %}
+            <tr>
+                <td>
+                    <img src="{{ amico.logo_url }}" alt="Logo di {{ amico.nome }}">
+                </td>
+                <td>{{ amico.nome }}</td>
+                <td>{{ amico.punti }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
+        <a href="{{ url_for('home') }}" class="button-dark">Torna alla Home</a>
     </div>
 </body>
 </html>

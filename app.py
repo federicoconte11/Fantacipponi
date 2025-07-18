@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = 'supersegretachiave'
@@ -6,9 +6,6 @@ app.secret_key = 'supersegretachiave'
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'password123'
 settimana_corrente = 1
-
-# Logo percorso statico (modifica se lo chiami diversamente)
-LOGO_FANTACIPPONI = "/static/logo_fantacipponi.png"
 
 amici = [
     {"nome": "Spina", "logo_url": "/static/Alessandro.jpg", "punti": 0},
@@ -73,39 +70,40 @@ azioni_possibili = [
 
 storico_azioni = {amico['nome']: [] for amico in amici}
 
-def get_amico_by_nome(nome):
-    for amico in amici:
-        if amico['nome'] == nome:
-            return amico
-    return None
+LOGO_URL = '/static/WhatsApp Image 2025-07-15 at 01.17.27.jpeg'
+
 
 @app.route('/')
 def home():
-    return render_template('home.html', logo_url=LOGO_FANTACIPPONI)
+    return render_template('home.html', logo_url=LOGO_URL)
+
 
 @app.route('/giocatori')
 def giocatori():
-    amici_ordinati = sorted(amici, key=lambda x: x['punti'], reverse=True)
-    return render_template('giocatori.html', amici=amici_ordinati, logo_url=LOGO_FANTACIPPONI)
+    # Ordina per punti decrescenti
+    amici_sorted = sorted(amici, key=lambda x: x['punti'], reverse=True)
+    return render_template('giocatori.html', amici=amici_sorted, logo_url=LOGO_URL)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    errore = None
     if request.method == 'POST':
         username = request.form['username'].strip()
-        password = request.form['password'].strip()
+        password = request.form['password']
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
-            flash('Login effettuato con successo!', 'success')
             return redirect(url_for('admin'))
         else:
-            return render_template('login.html', errore='Credenziali errate.', logo_url=LOGO_FANTACIPPONI)
-    return render_template('login.html', logo_url=LOGO_FANTACIPPONI)
+            errore = 'Credenziali errate.'
+    return render_template('login.html', errore=errore, logo_url=LOGO_URL)
+
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
-    flash('Logout effettuato.', 'success')
     return redirect(url_for('home'))
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -119,24 +117,23 @@ def admin():
         nome_giocatore = request.form.get('giocatore')
         azione_idx = request.form.get('azione')
         if not nome_giocatore or azione_idx is None:
-            errore = "Compila tutti i campi!"
-        elif not get_amico_by_nome(nome_giocatore):
-            errore = f"Giocatore non valido: {nome_giocatore}."
-        elif not azione_idx.isdigit() or int(azione_idx) < 0 or int(azione_idx) >= len(azioni_possibili):
-            errore = "Azione non valida."
+            errore = "Seleziona sia il giocatore che l'azione!"
         else:
-            azione = azioni_possibili[int(azione_idx)]
-            storico_azioni[nome_giocatore].append(azione)
-            messaggio = f"Azione assegnata a {nome_giocatore}: {azione['emoji']} {azione['nome']} ({azione['punti']} pt)"
-            flash(messaggio, "success")
-    
+            try:
+                azione_idx = int(azione_idx)
+                azione = azioni_possibili[azione_idx]
+                storico_azioni[nome_giocatore].append(azione)
+                messaggio = f"Azione assegnata a {nome_giocatore}!"
+            except Exception as e:
+                errore = "Errore nell'assegnazione: dati non validi."
+
     return render_template(
         'admin.html',
         amici=amici,
         azioni=azioni_possibili,
+        logo_url=LOGO_URL,
         messaggio=messaggio,
-        errore=errore,
-        logo_url=LOGO_FANTACIPPONI
+        errore=errore
     )
 
 def calcola_punteggi_settimana():
@@ -159,23 +156,19 @@ def live():
         giocatori_azioni.append({
             "nome": nome,
             "azioni": azioni,
-            "totale": totale,
-            "punti": get_amico_by_nome(nome)['punti']
+            "totale": totale
         })
-    giocatori_azioni = sorted(
-        giocatori_azioni,
-        key=lambda x: (x['punti'] + x['totale']),
-        reverse=True
-    )
-    return render_template('live.html', giocatori=giocatori_azioni, logo_url=LOGO_FANTACIPPONI)
+    # Ordina per totale settimana discendente
+    giocatori_azioni = sorted(giocatori_azioni, key=lambda x: x['totale'], reverse=True)
+    return render_template('live.html', giocatori=giocatori_azioni, logo_url=LOGO_URL)
 
 @app.route('/admin/calcola_settimana', methods=['POST'])
 def admin_calcola_settimana():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
     calcola_punteggi_settimana()
-    flash("Settimana calcolata! Punteggi aggiornati.", "success")
     return redirect(url_for('admin'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

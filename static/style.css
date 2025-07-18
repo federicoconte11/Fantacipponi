@@ -1,0 +1,109 @@
+body {
+    text-align: center;
+    margin-top: 50px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    min-height: 100vh;
+}
+
+.logo-img {
+    width: 300px;
+    max-width: 95vw;
+    height: auto;
+    margin: 30px 0 20px 0;
+    border: 3px solid white;
+    border-radius: 10px;
+}
+
+.button-dark, .button {
+    font-size: 20px;
+    padding: 12px 25px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 10px 5px 10px 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+.button-dark:hover, .button:hover {
+    background-color: #333333;
+    transform: scale(1.05);
+}
+
+.admin-form {
+    margin: 0 auto 20px auto;
+    max-width: 420px;
+    background: rgba(0,0,0,0.45);
+    border-radius: 12px;
+    padding: 32px 28px 28px 28px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+    display: inline-block;
+}
+
+select, button, input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-top: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+    border: none;
+}
+
+select {
+    background: #1b263b;
+    color: white;
+    min-width: 300px;
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+label {
+    font-weight: bold;
+    color: #f1c40f;
+    font-size: 18px;
+    display: block;
+    margin-bottom: 3px;
+    margin-top: 12px;
+}
+
+.admin-title {
+    color: #f1c40f;
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.msg-ok {
+    color: #2ecc40;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.msg-error {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 30px;
+    right: 45px;
+    background: #e74c3c;
+    color: white;
+    font-size: 17px;
+    padding: 8px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    z-index: 5;
+}
+.logout-btn:hover {
+    background: #c0392b;
+}
+
