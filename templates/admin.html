@@ -3,48 +3,123 @@
 <head>
     <title>FantaCipponi - Admin</title>
     <style>
-        form {
-            margin: 20px auto;
+        body {
             text-align: center;
+            margin-top: 40px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+        }
+        h1 {
+            color: #f1c40f;
+            font-size: 2.3em;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+        }
+        form {
+            background: rgba(34, 40, 49, 0.92);
+            padding: 30px 35px 25px 35px;
+            border-radius: 18px;
+            box-shadow: 0 2px 18px #0008;
+            margin: 0 auto 35px auto;
+            max-width: 420px;
+            display: inline-block;
+        }
+        label {
+            font-weight: bold;
+            color: #f1c40f;
+            margin-bottom: 5px;
+            display: inline-block;
+            font-size: 1.08em;
         }
         select, button {
-            padding: 8px;
-            margin: 5px;
-            font-size: 16px;
+            padding: 10px 15px;
+            margin: 10px 0 18px 0;
+            border-radius: 7px;
+            border: none;
+            font-size: 1.1em;
+        }
+        select {
+            background: #212b36;
+            color: #fff;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 250px;
+            box-shadow: 0 0 4px #f1c40f44;
+        }
+        button[type="submit"] {
+            background: #f1c40f;
+            color: #222;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 1px 6px #0005;
+            transition: background 0.22s, color 0.22s, transform 0.22s;
+            margin-top: 8px;
+            margin-bottom: 2px;
+            min-width: 170px;
+        }
+        button[type="submit"]:hover {
+            background: #fff;
+            color: #b48e0a;
+            transform: scale(1.04);
+        }
+        .link-bar {
+            margin-top: 30px;
+        }
+        .admin-link {
+            background: #212b36;
+            color: #f1c40f;
+            padding: 9px 23px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.08em;
+            margin: 0 7px;
+            box-shadow: 0 0 10px #f1c40f33;
+            transition: background 0.18s, color 0.18s;
+        }
+        .admin-link:hover {
+            background: #f1c40f;
+            color: #222;
+        }
+        @media (max-width: 550px) {
+            form {
+                max-width: 97vw;
+                padding: 16px 5vw 14px 5vw;
+            }
         }
     </style>
 </head>
-<body style="text-align: center; margin-top: 30px;">
+<body>
     <h1>Admin - Assegna Azione a Giocatore</h1>
 
     <form method="POST">
-        <label for="giocatore">Giocatore:</label>
+        <label for="giocatore">Giocatore:</label><br>
         <select name="giocatore" id="giocatore">
             {% for amico in amici %}
                 <option value="{{ amico.nome }}">{{ amico.nome }}</option>
             {% endfor %}
         </select>
-        <br><br>
+        <br>
 
-        <label for="azione">Azione:</label>
+        <label for="azione">Azione:</label><br>
         <select name="azione" id="azione">
            {% for azione in azioni %}
                 <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
             {% endfor %}
-
         </select>
-        <br><br>
+        <br>
 
         <button type="submit">Assegna Azione</button>
     </form>
 
-    <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
-     <button type="submit">Calcola Settimana</button>
+    <form action="{{ url_for('admin_calcola_settimana') }}" method="post" style="display:inline-block;">
+        <button type="submit">Calcola Settimana</button>
     </form>
 
-
-    <br>
-    <a href="{{ url_for('live') }}">Vai al Live</a> |
-    <a href="{{ url_for('giocatori') }}">Torna ai Giocatori</a>
+    <div class="link-bar">
+        <a href="{{ url_for('live') }}" class="admin-link">Vai al Live</a>
+        <a href="{{ url_for('giocatori') }}" class="admin-link">Torna ai Giocatori</a>
+    </div>
 </body>
 </html>
