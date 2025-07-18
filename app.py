@@ -10,14 +10,14 @@ settimana_corrente = 1
 
 # Lista amici con logo
 amici = [
-    {"nome": "Alessandro Spina", "logo_url": "/static/Alessandro.jpg", "punti": 0},
-    {"nome": "Federico Conte", "logo_url": "/static/loghi/federico.jpg", "punti": 0},
+    {"nome": "Spina", "logo_url": "/static/Alessandro.jpg", "punti": 0},
+    {"nome": "Federico", "logo_url": "/static/loghi/federico.jpg", "punti": 0},
     {"nome": "Giamburrasca", "logo_url": "/static/loghi/giamburrasca.png", "punti": 0},
-    {"nome": "Aurelio Carrozzo", "logo_url": "/static/loghi/aurelio_carrozzo.png", "punti": 0},
-    {"nome": "Francesco Carrozzo", "logo_url": "/static/loghi/francesco_carrozzo.png", "punti": 0},
-    {"nome": "Francesco Denuzzo", "logo_url": "/static/loghi/francesco_denuzzo.png", "punti": 0},
-    {"nome": "Andrea Carone", "logo_url": "/static/loghi/birillo.jpg", "punti": 0},
-    {"nome": "Domenico Mazza", "logo_url": "/static/loghi/domenico_mazza.png", "punti": 0}
+    {"nome": "Aurelio", "logo_url": "/static/loghi/aurelio_carrozzo.png", "punti": 0},
+    {"nome": "Carrozzo", "logo_url": "/static/loghi/francesco_carrozzo.png", "punti": 0},
+    {"nome": "Denuzzo", "logo_url": "/static/loghi/francesco_denuzzo.png", "punti": 0},
+    {"nome": "Birill0", "logo_url": "/static/loghi/birillo.jpg", "punti": 0},
+    {"nome": "Domenico", "logo_url": "/static/loghi/domenico_mazza.png", "punti": 0}
 ]
 
 # Azioni con punti e emoji
