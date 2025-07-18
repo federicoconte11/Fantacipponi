@@ -5,119 +5,116 @@
     <style>
         body {
             text-align: center;
-            margin-top: 30px;
-            font-family: Arial, sans-serif;
+            margin-top: 40px;
+            font-family: Arial, Helvetica, sans-serif;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
+            color: #fff;
         }
         h1 {
-            color: #f1c40f;
             margin-bottom: 35px;
-            font-size: 2.2em;
             letter-spacing: 1px;
+            color: #f1c40f;
+            font-size: 2.2rem;
         }
-        form {
-            margin: 25px auto 15px auto;
-            padding: 25px 35px;
-            background: rgba(44, 83, 100, 0.80);
-            border-radius: 20px;
-            max-width: 460px;
-            box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25);
+        .admin-container {
+            background: rgba(30, 30, 40, 0.92);
+            border-radius: 16px;
+            box-shadow: 0 2px 24px #00000055;
+            padding: 38px 28px 24px 28px;
+            display: inline-block;
+            margin-bottom: 30px;
+            min-width: 320px;
         }
         label {
+            font-size: 1.1rem;
             color: #f1c40f;
-            font-size: 1.07em;
             font-weight: bold;
         }
         select, button {
-            padding: 12px;
-            margin: 8px 0;
-            font-size: 1.07em;
-            border-radius: 9px;
+            padding: 10px 15px;
+            margin: 8px 0 18px 0;
+            font-size: 1.1rem;
+            border-radius: 7px;
             border: none;
         }
         select {
-            min-width: 340px;
-            background: #1a2733;
-            color: #f1c40f;
-            border: 2px solid #f1c40f;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: border 0.2s;
-            max-width: 100%;
-            /* PER RENDERE SCORREVOLE LA LISTA LUNGA */
-            overflow-y: auto;
-        }
-        select:focus {
-            border: 2px solid #ffffff;
-            outline: none;
+            min-width: 240px;
+            max-width: 350px;
+            background: #24243e;
+            color: #fff;
         }
         option {
-            background: #203a43;
+            white-space: normal !important; /* Per vedere tutto il testo nelle azioni */
+            font-size: 1rem;
+            background: #2c5364;
             color: #fff;
-            white-space: pre-wrap;
-            font-size: 1em;
-            padding: 8px 0;
+            padding: 6px;
         }
         button {
             background-color: #f1c40f;
-            color: #203a43;
+            color: #1c1c1c;
             font-weight: bold;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-            box-shadow: 0 2px 8px 0 rgba(0,0,0,0.14);
-            font-size: 1.1em;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         button:hover {
-            background-color: #ffd700;
-            transform: scale(1.05);
+            background: #ffda47;
+            color: #000;
+            transform: scale(1.04);
         }
-        .admin-links {
+        .nav-links {
             margin-top: 35px;
         }
-        .admin-links a {
+        .nav-link {
             color: #f1c40f;
+            background: #232b3e;
+            border-radius: 6px;
+            padding: 8px 18px;
             text-decoration: none;
+            margin: 0 12px;
             font-weight: bold;
-            margin: 0 18px;
-            font-size: 1.12em;
-            transition: color 0.2s;
+            transition: background 0.22s, color 0.22s;
         }
-        .admin-links a:hover {
-            color: #fff;
+        .nav-link:hover {
+            background: #f1c40f;
+            color: #24243e;
+        }
+        @media (max-width: 540px) {
+            .admin-container { min-width: 96vw; padding: 16px 3vw 10px 3vw;}
+            select { min-width: 94vw; max-width: 98vw; }
         }
     </style>
 </head>
 <body>
     <h1>Admin - Assegna Azione a Giocatore</h1>
+    <div class="admin-container">
+        <form method="POST">
+            <label for="giocatore">Giocatore:</label><br>
+            <select name="giocatore" id="giocatore">
+                {% for amico in amici %}
+                    <option value="{{ amico.nome }}">{{ amico.nome }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <label for="azione">Azione:</label><br>
+            <select name="azione" id="azione" size="7" style="overflow-y:auto;">
+                {% for azione in azioni %}
+                    <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ '+' if azione.punti >= 0 else ''}}{{ azione.punti }} pt)</option>
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit">Assegna Azione</button>
+        </form>
+        <form action="{{ url_for('admin_calcola_settimana') }}" method="post" style="margin-top:16px;">
+            <button type="submit">Calcola Settimana</button>
+        </form>
+    </div>
 
-    <form method="POST">
-        <label for="giocatore">Giocatore:</label><br>
-        <select name="giocatore" id="giocatore">
-            {% for amico in amici %}
-                <option value="{{ amico.nome }}">{{ amico.nome }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-
-        <label for="azione">Azione:</label><br>
-        <select name="azione" id="azione" size="6"> <!-- size rende la tendina alta e scorrevole -->
-           {% for azione in azioni %}
-                <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
-            {% endfor %}
-        </select>
-        <br>
-
-        <button type="submit">Assegna Azione</button>
-    </form>
-
-    <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
-        <button type="submit">Calcola Settimana</button>
-    </form>
-
-    <div class="admin-links">
-        <a href="{{ url_for('live') }}">Vai al Live</a> |
-        <a href="{{ url_for('giocatori') }}">Torna ai Giocatori</a>
+    <div class="nav-links">
+        <a href="{{ url_for('live') }}" class="nav-link">Vai al Live</a>
+        <a href="{{ url_for('giocatori') }}" class="nav-link">Torna ai Giocatori</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
     </div>
 </body>
 </html>
