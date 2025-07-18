@@ -1,37 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
+    <meta charset="UTF-8">
     <title>FantaCipponi - Admin</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Eventuali stili specifici per admin */
-        .admin-form {
-            margin: 30px auto;
-            max-width: 400px;
-            background: rgba(0,0,0,0.4);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.2);
-        }
-        select, button, input {
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 5px;
-            margin-top: 12px;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-        .button-dark {
-            background: #000;
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600;400&display=swap');
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #18132d 0%, #441a47 100%);
+            font-family: 'Montserrat', Arial, sans-serif;
             color: #fff;
-            border: none;
+            min-height: 100vh;
         }
-        .button-dark:hover {
-            background: #333;
+        .logo-img {
+            display: block;
+            max-width: 170px;
+            margin: 36px auto 18px auto;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 28px 0 rgba(0,0,0,0.18);
         }
         .admin-title {
-            color: #f1c40f;
-            margin-top: 20px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffe955;
+            letter-spacing: 1px;
+            margin-bottom: 26px;
+            text-shadow: 0 4px 20px #1a1a30;
+        }
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .admin-form {
+            background: rgba(40,18,70,0.88);
+            border-radius: 16px;
+            padding: 32px 26px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.19);
+            margin-bottom: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffe955;
+            display: block;
+            margin-top: 14px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        select, button, input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            background: #23223a;
+            color: #fff;
+            font-family: inherit;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            transition: box-shadow 0.18s;
+        }
+        select:focus, input:focus {
+            outline: 2px solid #ffe955;
+            box-shadow: 0 0 0 2px #ffe95533;
+        }
+        .button-dark {
+            background: #141119;
+            color: #ffe955;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.18s, color 0.18s;
+            box-shadow: 0 2px 8px 0 rgba(255,233,85,0.08);
+        }
+        .button-dark:hover, .button-dark:focus {
+            background: #ffe955;
+            color: #23223a;
+        }
+        .success-message {
+            color: #2ecc40;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 7px;
+            margin: 0 auto 18px auto;
+            padding: 8px 18px;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 1px 8px #23223a24;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 7px;
+            margin: 0 auto 18px auto;
+            padding: 8px 18px;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 1px 8px #23223a24;
+        }
+        .admin-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 16px 0 0 0;
+        }
+        .admin-links a {
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .admin-form, .success-message, .error-message { max-width: 98vw; }
+            .logo-img { max-width: 94vw; }
+            .admin-title { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -41,37 +129,39 @@
     <h1 class="admin-title">Admin - Assegna Azione a Giocatore</h1>
 
     {% if messaggio %}
-        <div style="color: #2ecc40; font-weight:bold; margin-bottom:15px;">{{ messaggio }}</div>
+        <div class="success-message">{{ messaggio }}</div>
     {% endif %}
     {% if errore %}
-        <div style="color: #e74c3c; font-weight:bold; margin-bottom:15px;">{{ errore }}</div>
+        <div class="error-message">{{ errore }}</div>
     {% endif %}
 
-    <form method="POST" class="admin-form">
-        <label for="giocatore">Giocatore:</label>
-        <select name="giocatore" id="giocatore">
-            {% for amico in amici %}
-                <option value="{{ amico.nome }}">{{ amico.nome }}</option>
-            {% endfor %}
-        </select>
+    <div class="admin-container">
+        <form method="POST" class="admin-form">
+            <label for="giocatore">Giocatore:</label>
+            <select name="giocatore" id="giocatore">
+                {% for amico in amici %}
+                    <option value="{{ amico.nome }}">{{ amico.nome }}</option>
+                {% endfor %}
+            </select>
 
-        <label for="azione">Azione:</label>
-        <select name="azione" id="azione" style="min-width:300px; max-width:90vw;">
-            {% for azione in azioni %}
-                <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
-            {% endfor %}
-        </select>
+            <label for="azione">Azione:</label>
+            <select name="azione" id="azione">
+                {% for azione in azioni %}
+                    <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
+                {% endfor %}
+            </select>
 
-        <button type="submit" class="button-dark">Assegna Azione</button>
-    </form>
+            <button type="submit" class="button-dark">Assegna Azione</button>
+        </form>
 
-    <form action="{{ url_for('admin_calcola_settimana') }}" method="post" style="display:inline;">
-        <button type="submit" class="button-dark">Calcola Settimana</button>
-    </form>
-    <a href="{{ url_for('logout') }}" class="button-dark" style="margin-left: 15px;">Logout</a>
-
-    <br><br>
-    <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
-    <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
+        <form action="{{ url_for('admin_calcola_settimana') }}" method="post" class="admin-form">
+            <button type="submit" class="button-dark">Calcola Settimana</button>
+        </form>
+        <div class="admin-links">
+            <a href="{{ url_for('logout') }}" class="button-dark">Logout</a>
+            <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
+            <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
+        </div>
+    </div>
 </body>
 </html>
