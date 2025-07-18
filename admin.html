@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FantaCipponi - Admin</title>
+    <style>
+        form {
+            margin: 20px auto;
+            text-align: center;
+        }
+        select, button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body style="text-align: center; margin-top: 30px;">
+    <h1>Admin - Assegna Azione a Giocatore</h1>
+
+    <form method="POST">
+        <label for="giocatore">Giocatore:</label>
+        <select name="giocatore" id="giocatore">
+            {% for amico in amici %}
+                <option value="{{ amico.nome }}">{{ amico.nome }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="azione">Azione:</label>
+        <select name="azione" id="azione">
+           {% for azione in azioni %}
+                <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
+            {% endfor %}
+
+        </select>
+        <br><br>
+
+        <button type="submit">Assegna Azione</button>
+    </form>
+
+    <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
+     <button type="submit">Calcola Settimana</button>
+    </form>
+
+
+    <br>
+    <a href="{{ url_for('live') }}">Vai al Live</a> |
+    <a href="{{ url_for('giocatori') }}">Torna ai Giocatori</a>
+</body>
+</html>
