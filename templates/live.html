@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FantaCipponi - Live</title>
+    <style>
+        .giocatore {
+            margin-bottom: 30px;
+        }
+        .azione {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body style="text-align: center; margin-top: 30px;">
+    <h1>LIVE - Punteggi Settimanali</h1>
+
+    {% for giocatore in giocatori %}
+        <div class="giocatore">
+            <h2>{{ giocatore.nome }} - Totale: {{ giocatore.totale }} pt</h2>
+            {% if giocatore.azioni %}
+                {% for azione in giocatore.azioni %}
+                    <div class="azione">
+                        {{ azione.emoji }} {{ azione.nome }} ({{ '+' if azione.punti >= 0 else ''}}{{ azione.punti }} pt)
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nessuna azione registrata questa settimana.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <br><br>
+    <a href="{{ url_for('admin') }}">Torna all'Admin</a> |
+    <a href="{{ url_for('giocatori') }}">Torna ai Giocatori</a>
+</body>
+</html>
