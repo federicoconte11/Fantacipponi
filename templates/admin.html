@@ -2,48 +2,76 @@
 <html>
 <head>
     <title>FantaCipponi - Admin</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Eventuali stili specifici per admin */
+        .admin-form {
+            margin: 30px auto;
+            max-width: 400px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+        }
+        select, button, input {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 12px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .button-dark {
+            background: #000;
+            color: #fff;
+            border: none;
+        }
+        .button-dark:hover {
+            background: #333;
+        }
+        .admin-title {
+            color: #f1c40f;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='WhatsApp Image 2025-07-15 at 01.17.27.jpeg') }}" alt="Logo" class="logo-img">
-    <h1>Admin - Assegna Azione a Giocatore</h1>
+    <img src="{{ logo_url }}" alt="Logo FantaCipponi" class="logo-img">
 
-    {% if messaggio_successo %}
-        <div class="message-success">{{ messaggio_successo }}</div>
+    <h1 class="admin-title">Admin - Assegna Azione a Giocatore</h1>
+
+    {% if messaggio %}
+        <div style="color: #2ecc40; font-weight:bold; margin-bottom:15px;">{{ messaggio }}</div>
     {% endif %}
-    {% if messaggio_errore %}
-        <div class="message-error">{{ messaggio_errore }}</div>
+    {% if errore %}
+        <div style="color: #e74c3c; font-weight:bold; margin-bottom:15px;">{{ errore }}</div>
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" class="admin-form">
         <label for="giocatore">Giocatore:</label>
-        <select name="giocatore" id="giocatore" required>
+        <select name="giocatore" id="giocatore">
             {% for amico in amici %}
                 <option value="{{ amico.nome }}">{{ amico.nome }}</option>
             {% endfor %}
         </select>
-        <br><br>
 
         <label for="azione">Azione:</label>
-        <select name="azione" id="azione" required>
-           {% for azione in azioni %}
+        <select name="azione" id="azione" style="min-width:300px; max-width:90vw;">
+            {% for azione in azioni %}
                 <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
             {% endfor %}
         </select>
-        <br><br>
 
-        <button class="button-dark" type="submit">Assegna Azione</button>
+        <button type="submit" class="button-dark">Assegna Azione</button>
     </form>
 
-    <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
-        <button class="button-dark" type="submit">Calcola Settimana</button>
+    <form action="{{ url_for('admin_calcola_settimana') }}" method="post" style="display:inline;">
+        <button type="submit" class="button-dark">Calcola Settimana</button>
     </form>
+    <a href="{{ url_for('logout') }}" class="button-dark" style="margin-left: 15px;">Logout</a>
 
-    <div style="margin-top: 20px;">
-        <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
-        <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
-        <a href="{{ url_for('home') }}" class="button-dark">Home</a>
-        <a href="{{ url_for('logout') }}" class="button-dark">Logout</a>
-    </div>
+    <br><br>
+    <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
+    <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
 </body>
 </html>
