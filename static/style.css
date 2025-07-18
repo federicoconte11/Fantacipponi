@@ -1,109 +1,188 @@
 body {
-    text-align: center;
-    margin-top: 50px;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+    color: #fff;
     min-height: 100vh;
 }
 
-.logo-img {
-    width: 300px;
-    max-width: 95vw;
+h1, h2, h3 {
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px #2228;
+    margin-bottom: 16px;
+}
+
+.card, .giocatore, .admin-box {
+    background: rgba(30, 37, 49, 0.94);
+    border-radius: 18px;
+    box-shadow: 0 6px 30px #0005, 0 2px 4px #0f202780;
+    margin: 24px auto;
+    padding: 24px;
+    max-width: 500px;
+    transition: transform 0.15s;
+}
+
+.card:hover, .giocatore:hover, .admin-box:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+.logo-img, .logo-fantacipponi {
+    width: 180px;
+    max-width: 80vw;
     height: auto;
-    margin: 30px 0 20px 0;
-    border: 3px solid white;
-    border-radius: 10px;
+    border: 4px solid #fff;
+    border-radius: 14px;
+    margin-bottom: 24px;
 }
 
-.button-dark, .button {
+.button-dark, .button, button, input[type="submit"] {
     font-size: 20px;
-    padding: 12px 25px;
-    background-color: #000000;
-    color: white;
+    padding: 14px 32px;
+    margin: 10px 5px;
+    border-radius: 8px;
     border: none;
-    border-radius: 5px;
+    background: linear-gradient(90deg, #ffbf00 40%, #ff0080 100%);
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 3px 10px #0003;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    margin: 10px 5px 10px 5px;
+    transition: background 0.2s, transform 0.15s;
+}
+.button-dark:hover, .button:hover, button:hover, input[type="submit"]:hover {
+    background: linear-gradient(90deg, #ff0080 20%, #ffbf00 100%);
+    transform: scale(1.06);
+}
+
+a {
+    color: #ffbf00;
     text-decoration: none;
-    display: inline-block;
+    font-weight: bold;
+    transition: color 0.18s;
 }
-.button-dark:hover, .button:hover {
-    background-color: #333333;
-    transform: scale(1.05);
-}
-
-.admin-form {
-    margin: 0 auto 20px auto;
-    max-width: 420px;
-    background: rgba(0,0,0,0.45);
-    border-radius: 12px;
-    padding: 32px 28px 28px 28px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.2);
-    display: inline-block;
+a:hover {
+    color: #ff0080;
 }
 
-select, button, input {
-    padding: 10px;
+.rules {
+    margin-top: 32px;
+    color: #ffbf00;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+.rules-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+}
+.rules-list li {
+    color: #fff;
     font-size: 18px;
-    border-radius: 5px;
-    margin-top: 12px;
-    margin-bottom: 15px;
-    width: 100%;
-    border: none;
+    margin: 6px 0;
+    text-shadow: 1px 1px 4px #0009;
 }
 
+table {
+    margin: 24px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 90vw;
+    max-width: 650px;
+    background: rgba(40, 50, 70, 0.97);
+    border-radius: 16px;
+    box-shadow: 0 3px 18px #0003;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 16px 10px;
+    text-align: center;
+}
+th {
+    background: #ffbf00;
+    color: #222;
+    font-size: 20px;
+    letter-spacing: 1.1px;
+    font-weight: 900;
+    border-bottom: 2px solid #ff0080;
+}
+td {
+    background: rgba(0,0,0,0.13);
+    font-size: 19px;
+}
+tr:nth-child(even) td {
+    background: rgba(255,255,255,0.06);
+}
+
+img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #ffbf00;
+}
+
+select, input[type="text"], input[type="password"] {
+    width: 96%;
+    max-width: 370px;
+    font-size: 18px;
+    padding: 13px 12px;
+    margin: 8px 0 16px 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(220,220,220,0.11);
+    color: #fff;
+    box-shadow: 0 1px 6px #0002;
+    outline: none;
+}
 select {
-    background: #1b263b;
-    color: white;
-    min-width: 300px;
-    max-width: 100%;
-    white-space: pre-wrap;
-    overflow-x: auto;
+    min-width: 320px;
+    white-space: pre-line;
+    font-size: 19px;
 }
-
-label {
-    font-weight: bold;
-    color: #f1c40f;
+select option {
+    background: #232944;
+    color: #fff;
     font-size: 18px;
-    display: block;
-    margin-bottom: 3px;
-    margin-top: 12px;
+    padding: 10px 8px;
+    min-height: 38px;
+    white-space: pre-line;
 }
-
-.admin-title {
-    color: #f1c40f;
-    margin-top: 20px;
-    font-size: 32px;
-    font-weight: bold;
+@media (max-width: 700px) {
+    .card, .giocatore, .admin-box {
+        max-width: 97vw;
+        padding: 12px;
+    }
+    table {
+        font-size: 16px;
+        max-width: 99vw;
+    }
+    .logo-img, .logo-fantacipponi {
+        width: 95vw;
+    }
 }
-
-.msg-ok {
-    color: #2ecc40;
-    font-weight: bold;
-    margin-bottom: 15px;
+.error-msg {
+    color: #ff5555;
+    background: #350606ad;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
-.msg-error {
-    color: #e74c3c;
-    font-weight: bold;
-    margin-bottom: 15px;
+.success-msg {
+    color: #31e41a;
+    background: #154d14ad;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
-
-.logout-btn {
-    position: absolute;
-    top: 30px;
-    right: 45px;
-    background: #e74c3c;
-    color: white;
-    font-size: 17px;
-    padding: 8px 24px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    z-index: 5;
+.footer {
+    margin-top: 60px;
+    color: #ccc;
+    font-size: 15px;
+    text-align: center;
+    opacity: 0.7;
 }
-.logout-btn:hover {
-    background: #c0392b;
-}
-
