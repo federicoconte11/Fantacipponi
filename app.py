@@ -531,4 +531,8 @@ if __name__ == '__main__':
         db.create_all()
         popola_amici()
         popola_azioni_catalogo()
+<<<<<<< HEAD
     app.run(debug=True)
+=======
+    app.run(debug=True)
+>>>>>>> 6c135766e27586a7fd2e897a80720e7925aa2d93
