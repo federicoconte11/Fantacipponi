@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Storico di {{ nome }}</title>
+    <style>
+        .settimana {
+            margin: 20px auto;
+            width: 60%;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+    <h1>Storico di {{ nome }}</h1>
+
+    {% if azioni_per_settimana %}
+        {% for settimana, azioni in azioni_per_settimana.items() %}
+            <div class="settimana">
+                <h2>Settimana {{ settimana }}</h2>
+                <ul>
+                    {% for azione in azioni %}
+                        <li>{{ azione.emoji }} {{ azione.nome }}: {{ azione.punti }} punti</li>
+                    {% endfor %}
+                </ul>
+                <strong>Totale settimana:</strong> {{ azioni | sum(attribute='punti') }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nessuna azione registrata per questo giocatore.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('giocatori') }}">Torna ai giocatori</a>
+</body>
+</html>

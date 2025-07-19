@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Azioni - {{ amico.nome }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;600;400&display=swap');
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #18132d 0%, #441a47 100%);
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(40,18,70,0.88);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.19);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffe955;
+            letter-spacing: 1px;
+            margin-bottom: 26px;
+            text-shadow: 0 4px 20px #1a1a30;
+        }
+        h2 {
+            color: #ffe955;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px; /* Space between items */
+        }
+        li span {
+            flex-basis: 30%; /* Adjust as needed */
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        li form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .button-small {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: background 0.18s, color 0.18s;
+        }
+        .button-delete {
+            background: #e74c3c;
+            color: white;
+        }
+        .button-delete:hover {
+            background: #c0392b;
+        }
+        .button-move {
+            background: #3498db;
+            color: white;
+        }
+        .button-move:hover {
+            background: #2980b9;
+        }
+        input[type="number"] {
+            width: 70px; /* Smaller width for number input */
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #23223a;
+            color: #fff;
+            font-family: inherit;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-link a {
+            text-decoration: none;
+            background: #141119;
+            color: #ffe955;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.18s, color 0.18s;
+        }
+        .back-link a:hover {
+            background: #ffe955;
+            color: #23223a;
+        }
+         {# Flash messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        .success-message {
+            color: #2ecc40;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 7px;
+            margin: 18px auto;
+            padding: 8px 18px;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 1px 8px #23223a24;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 7px;
+            margin: 18px auto;
+            padding: 8px 18px;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 1px 8px #23223a24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modifica Azioni di {{ amico.nome }}</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2>Azioni Assegnate</h2>
+        <ul>
+            {% for azione in azioni_assegnate %}
+                <li>
+                    <span>{{ azione.emoji }} {{ azione.nome }} ({{ '%g'|format(azione.punti) }} pt) - Settimana {{ azione.settimana }}</span>
+                    <form method="post">
+                        <input type="hidden" name="azione_id" value="{{ azione.id }}">
+                        <button type="submit" name="action" value="delete" class="button-small button-delete" onclick="return confirm('Sei sicuro di voler eliminare questa azione?')">Elimina</button>
+                        <label for="new_week_{{ azione.id }}">Sposta a Settimana:</label>
+                        <input type="number" name="nuova_settimana" id="new_week_{{ azione.id }}" value="{{ azione.settimana }}" min="1">
+                        <button type="submit" name="action" value="sposta" class="button-small button-move">Sposta</button>
+                    </form>
+                </li>
+            {% endfor %}
+            {% if not azioni_assegnate %}
+                <p style="text-align: center; color: #ccc;">Nessuna azione assegnata a {{ amico.nome }}.</p>
+            {% endif %}
+        </ul>
+
+        <div class="back-link">
+            <a href="{{ url_for('admin') }}">Torna al Pannello Admin</a>
+        </div>
+    </div>
+</body>
+</html>

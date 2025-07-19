@@ -35,7 +35,7 @@
             border-radius: 18px;
             box-shadow: 0 2px 18px #0008;
         }
-        .rules-card {
+        .rules-card { /* Kept for the basic rules */
             background: linear-gradient(90deg, #18243a 60%, #274c7d 100%);
             border-radius: 22px;
             box-shadow: 0 3px 22px #0005;
@@ -43,6 +43,7 @@
             padding: 22px 8vw 18px 8vw;
             margin-bottom: 32px;
             margin-top: 18px;
+            text-align: left;
         }
         .rules-title {
             color: #ffe79b;
@@ -51,6 +52,7 @@
             letter-spacing: 0.02em;
             margin-bottom: 10px;
             text-shadow: 0 2px 7px #0006;
+            text-align: center;
         }
         .rules-list {
             list-style: none;
@@ -68,31 +70,64 @@
             box-shadow: 0 1px 8px #0002;
             font-weight: 500;
         }
-        .buttons-area {
-            margin: 30px 0 24px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            justify-content: center;
+
+        /* --- Dropdown Styles --- */
+        .dropdown {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: inline-block;
+            z-index: 1000;
         }
-        .button-gold {
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #172956;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            padding: 10px 0;
+            left: 0;
+            transform: none;
+            top: 100%;
+            margin-top: 10px;
+            border: 1px solid #ffe79b2a;
+        }
+        .dropdown-content a {
+            color: #ffe79b;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.15s, color 0.15s;
+        }
+        .dropdown-content a:hover {
+            background-color: #274c7d;
+            color: #fff7c2;
+        }
+        .dropdown-content.show {
+            display: block;
+        }
+        .dropbtn {
             font-size: 1.1em;
             font-weight: 700;
-            padding: 13px 35px;
+            padding: 13px 20px;
             background: linear-gradient(90deg, #ffe79b 60%, #ffd900 100%);
             color: #262326;
             border: none;
             border-radius: 26px;
             cursor: pointer;
             box-shadow: 0 3px 12px #ffe79b33, 0 2px 8px #0003;
-            transition: background 0.22s, color 0.22s, transform 0.18s;
+            transition: background 0.22s, transform 0.18s;
             outline: none;
         }
-        .button-gold:hover {
+        .dropbtn:hover {
             background: #fffbe8;
-            color: #be9700;
             transform: scale(1.07);
         }
+
         .footer {
             margin-top: 40px;
             color: #ffe79b77;
@@ -102,14 +137,27 @@
         @media (max-width: 620px) {
             .container { padding: 0 3vw; }
             h1 { font-size: 1.18em; }
-            .rules-card { padding: 16px 4vw 13px 4vw; }
+            .rules-card {
+                padding: 16px 4vw 13px 4vw;
+            }
             .logo-img { width: 94vw; }
             .footer { font-size: 13px; }
-            .button-gold { padding: 13px 19vw; font-size: 1em; }
+            .dropbtn { padding: 13px 15vw; font-size: 1em; }
         }
     </style>
 </head>
 <body>
+    <div class="dropdown">
+        <button onclick="toggleDropdown()" class="dropbtn">Menu</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="{{ url_for('giocatori') }}">Classifica Giocatori</a>
+            <a href="{{ url_for('live') }}">Classifica Live</a>
+            <a href="{{ url_for('quote') }}">Quote</a>
+            <a href="{{ url_for('regolamento_premi') }}">Regolamento e Premi</a> {# AGGIUNGI QUESTA LINEA #}
+            <a href="{{ url_for('login') }}">Area Admin</a>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Benvenuto su FantaCipponi!</h1>
         <img src="{{ url_for('static', filename='WhatsApp Image 2025-07-15 at 01.17.27.jpeg') }}" alt="Logo" class="logo-img">
@@ -123,15 +171,27 @@
             </ul>
         </div>
 
-        <div class="buttons-area">
-            <a href="{{ url_for('giocatori') }}"><button class="button-gold">Entra</button></a>
-            <a href="{{ url_for('live') }}"><button class="button-gold">Classifica Live</button></a>
-            <a href="{{ url_for('login') }}"><button class="button-gold">Admin</button></a>
-        </div>
-
         <div class="footer">
             &copy; 2025 FantaCipponi | powered by Ale & Fede
         </div>
     </div>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>FantaCipponi - Quote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,500,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #08142a 0%, #172956 70%, #274c7d 100%);
+            color: #ffe79b;
+            font-family: 'Urbanist', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .header {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #fff7c2;
+            text-shadow: 0 2px 16px #30230044;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ffe79b 60%, #ffd900 100%);
+            color: #262326;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .back-button:hover {
+            transform: translateY(-2px);
+            background: #fffbe8;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+            justify-content: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 900px; /* Max width for the cards section */
+            margin-top: 20px;
+        }
+        .quota-card {
+            background: linear-gradient(145deg, #18243a 0%, #274c7d 100%);
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            border: 2px solid #ffe79b2a;
+            padding: 25px;
+            flex: 1; /* Allows cards to grow and shrink */
+            min-width: 280px; /* Minimum width for each card */
+            max-width: 400px; /* Max width for each card */
+            text-align: center;
+        }
+        .card-title {
+            font-size: 1.8em;
+            color: #fff7c2;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .quota-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .quota-list li {
+            background-color: #0d1a2f;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1em;
+            font-weight: 500;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+            border-left: 4px solid #ffe79b;
+        }
+        .quota-list li span:first-child {
+            color: #fffbe8;
+        }
+        .quota-list li span:last-child {
+            color: #ffe79b;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #ffe79b77;
+            font-size: 15px;
+            text-shadow: 0 1px 4px #0003;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .quota-card {
+                width: 90%; /* On small screens, cards take more width */
+                max-width: 450px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            .quota-card {
+                padding: 20px;
+            }
+            .card-title {
+                font-size: 1.6em;
+            }
+            .quota-list li {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Quote FantaCipponi</h1>
+        <a href="{{ url_for('home') }}" class="back-button">Torna alla Home</a>
+    </div>
+
+    <div class="card-container">
+        <div class="quota-card">
+            <h2 class="card-title">Quote di Partenza</h2>
+            <ul class="quota-list">
+                {% for nome, quota in quote_partenza.items() %}
+                    <li>
+                        <span>{{ nome }}</span>
+                        <span>{{ "%.2f"|format(quota) }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="quota-card">
+            <h2 class="card-title">Quote Live</h2>
+            <ul class="quota-list">
+                {% for nome, quota in quote_live.items() %}
+                    <li>
+                        <span>{{ nome }}</span>
+                        <span>{{ quota }}</span> {# Already formatted in Python #}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 FantaCipponi | powered by Ale & Fede
+    </div>
+</body>
+</html>

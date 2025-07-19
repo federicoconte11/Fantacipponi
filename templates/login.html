@@ -21,6 +21,7 @@
             box-shadow: 0 4px 30px #0007;
             border: 2px solid #ffe79b44;
             padding: 32px 30px 26px 30px;
+            text-align: center;
         }
         h1 {
             margin-bottom: 18px;
@@ -95,25 +96,22 @@
         .link-home:hover {
             color: #fffbe8;
         }
-        @media (max-width: 500px) {
-            .login-container { max-width: 96vw; padding: 18px 6vw 20px 6vw; }
-            h1 { font-size: 1.17em; }
-            input[type="text"], input[type="password"] { padding: 10px 7px; font-size: 1em; }
-            button[type="submit"] { font-size: 1em; }
-        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1>Login Admin</h1>
+
         {% if errore %}
             <div class="errore-msg">{{ errore }}</div>
         {% endif %}
+
         <form method="POST">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
+
         <a href="{{ url_for('home') }}" class="link-home">Torna alla Home</a>
     </div>
 </body>

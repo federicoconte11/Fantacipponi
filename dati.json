@@ -1,0 +1,19 @@
+{
+    "punteggi": {
+        "1": 5,
+        "2": -1
+    },
+    "azioni_settimanali": {
+        "1": {
+            "1": [
+                {
+                    "id": 1,
+                    "nome": "Gol",
+                    "punti": 3,
+                    "emoji": "\u26bd\ufe0f"
+                }
+            ]
+        }
+    },
+    "settimana_corrente": 2
+}

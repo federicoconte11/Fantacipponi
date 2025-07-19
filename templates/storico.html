@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <title>Storico di {{ nome }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 40px auto;
+            max-width: 700px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 30px;
+        }
+        .settimana {
+            background: white;
+            margin-bottom: 25px;
+            padding: 20px 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+        .settimana h2 {
+            margin-top: 0;
+            color: #005a9c;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 6px 0;
+            font-size: 1.05em;
+        }
+        .punti-totale {
+            font-weight: bold;
+            margin-top: 12px;
+            font-size: 1.1em;
+            color: #007a00;
+        }
+        a {
+            display: block;
+            margin: 30px auto 0 auto;
+            width: fit-content;
+            text-decoration: none;
+            color: #005a9c;
+            font-weight: bold;
+            font-size: 1em;
+            border: 2px solid #005a9c;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #005a9c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Storico di {{ nome }}</h1>
+
+    {% if azioni_per_settimana %}
+        {% for settimana, azioni in azioni_per_settimana.items() %}
+            <div class="settimana">
+                <h2>Settimana {{ settimana }}</h2>
+                <ul>
+                    {% for azione in azioni %}
+                        <li>{{ azione.emoji }} {{ azione.nome }}: {{ azione.punti }} punti</li>
+                    {% endfor %}
+                </ul>
+                <div class="punti-totale">Totale settimana: {{ azioni | sum(attribute='punti') }} punti</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nessuna azione registrata per questo giocatore.</p>
+    {% endif %}
+
+    <a href="{{ url_for('giocatori') }}">Torna ai giocatori</a>
+</body>
+</html>

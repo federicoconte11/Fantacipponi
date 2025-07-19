@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>FantaCipponi - Regolamento e Premi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,500,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #08142a 0%, #172956 70%, #274c7d 100%);
+            color: #ffe79b;
+            font-family: 'Urbanist', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .header {
+            width: 100%;
+            max-width: 700px; /* Increased max-width for better readability of text */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #fff7c2;
+            text-shadow: 0 2px 16px #30230044;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ffe79b 60%, #ffd900 100%);
+            color: #262326;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .back-button:hover {
+            transform: translateY(-2px);
+            background: #fffbe8;
+        }
+        .content-card { /* General card for content sections */
+            background: linear-gradient(145deg, #18243a 0%, #274c7d 100%);
+            border-radius: 22px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            border: 2px solid #ffe79b2a;
+            padding: 25px 5vw; /* Adjusted padding for better text flow */
+            margin-bottom: 32px;
+            width: 100%;
+            max-width: 700px; /* Max width for content card */
+            text-align: left; /* Text alignment for readability */
+        }
+        .content-card h2 {
+            color: #fff7c2;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+        .content-card h3 {
+            color: #ffe79b;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ffe79b33;
+            padding-bottom: 5px;
+        }
+        .content-card p, .content-card ul {
+            color: #e0eaf6;
+            font-size: 0.98em;
+            line-height: 1.6;
+            margin-bottom: 1em;
+        }
+        .content-card ul {
+            list-style: disc;
+            padding-left: 25px;
+            margin-bottom: 1em;
+        }
+        .content-card li {
+            margin-bottom: 0.5em;
+        }
+        .content-card strong {
+            color: #fff7c2;
+        }
+        .content-card em {
+            color: #ffe79b;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #ffe79b77;
+            font-size: 15px;
+            text-shadow: 0 1px 4px #0003;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .content-card {
+                padding: 20px 4vw;
+            }
+            .content-card h2 {
+                font-size: 1.6em;
+            }
+            .content-card h3 {
+                font-size: 1.2em;
+            }
+            .content-card p, .content-card ul {
+                font-size: 0.9em;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            .content-card {
+                padding: 15px 3vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Regolamento e Premi del FantaCipponi</h1>
+        <a href="{{ url_for('home') }}" class="back-button">Torna alla Home</a>
+    </div>
+
+    <div class="content-card">
+        <h2>Regolamento Completo</h2>
+        <p>Benvenuti al FantaCipponi, il gioco che mette alla prova la vostra abilità sociale, l'astuzia e la fortuna! Di seguito trovate il regolamento dettagliato per non perdere nemmeno un punto.</p>
+
+        <h3>1. Punteggio Base</h3>
+        <ul>
+            <li><strong>Serata Giocata:</strong> +1 punto (partecipazione attiva a una serata di gruppo, con interazioni sociali significative).</li>
+            <li><strong>Serata Non Giocata:</strong> 0 punti (presenza passiva o assenza).</li>
+            <li><strong>Sboccata:</strong> -1 punto (vomito in pubblico o in situazioni socialmente imbarazzanti).</li>
+            <li><strong>Chi Guida:</strong> +1 punto (essere il conducente designato per il gruppo).</li>
+        </ul>
+
+        <h3>2. Relazioni e Conquiste</h3>
+        <ul>
+            <li><strong>Scopata:</strong> +3 punti (rapporto sessuale completo).</li>
+            <li><strong>Pompino:</strong> +2 punti (sesso orale ricevuto).</li>
+            <li><strong>Larciata:</strong> +1 punto (bacio passionale con nuova persona).</li>
+            <li><strong>Assist:</strong> +2 punti (aiutare un compagno a rimorchiare o "fare il palo").</li>
+            <li><strong>Over 30 età:</strong> +2 punti (conquista con persona over 30).</li>
+            <li><strong>Under 20 età:</strong> +1 punto (conquista con persona under 20).</li>
+            <li><strong>Straniera:</strong> +2 punti (conquista con persona di nazionalità straniera).</li>
+            <li><strong>Dormi da lei:</strong> +3.5 punti (passare la notte a casa della persona conquistata).</li>
+            <li><strong>Threesome:</strong> +5 punti (rapporto sessuale a tre o più persone).</li>
+            <li><strong>Contattino:</strong> +0.5 punti (ottenere un contatto telefonico/social senza ulteriori sviluppi).</li>
+            <li><strong>Palo:</strong> -0.5 punti (tentativo fallito di rimorchio con esito negativo evidente).</li>
+            <li><strong>Ex:</strong> -2 punti (interazione, anche minima, con una ex partner).</li>
+            <li><strong>Tornare con ex per punti:</strong> -4 punti (tornare ufficialmente con una ex partner).</li>
+            <li><strong>Ragazza fidanzata bacio:</strong> +5 punti (baciare una ragazza dichiaratamente fidanzata).</li>
+            <li><strong>Sesso con due ragazze:</strong> +8 punti (rapporto sessuale con due persone diverse nella stessa serata).</li>
+            <li><strong>Numero senza chiedere:</strong> +2.5 punti (ottenere il contatto senza chiederlo esplicitamente, ma con intesa reciproca).</li>
+            <li><strong>Referenze ragazze:</strong> +4 punti (ottenere referenze positive da altre ragazze/amici della persona rimorchiata, attestanti un ottimo "gioco").</li>
+            <li><strong>Rimorchio lingua straniera:</strong> +1 punto (rimorchiare usando principalmente una lingua diversa dall'italiano).</li>
+            <li><strong>Chiacchierata 5 minuti:</strong> +0.5 punti (conversazione interessante con una nuova persona per almeno 5 minuti).</li>
+            <li><strong>Invitato post serata/mare:</strong> +1 punto (essere invitato a continuare la serata/giornata in un contesto più intimo o a casa di qualcuno).</li>
+            <li><strong>Complimenti outfit:</strong> +0.5 punti (ricevere un complimento spontaneo sull'abbigliamento da una persona di interesse).</li>
+            <li><strong>Rimorchio in spiaggia:</strong> +1 punto (rimorchiare una persona in un contesto da spiaggia).</li>
+
+        </ul>
+
+        <h3>3. Comportamenti e Penalità</h3>
+        <ul>
+            <li><strong>Sotto i due cocktail:</strong> -1 punto (consumo di meno di due cocktail in una serata alcolica).</li>
+            <li><strong>Sopra i tre cocktail:</strong> +0.5 punti (consumo di più di tre cocktail).</li>
+            <li><strong>Over 5 cocktail:</strong> +1.5 punti (consumo di più di cinque cocktail).</li>
+            <li><strong>Under 4 di mattina:</strong> +0.5 punti (rientro a casa prima delle 4 del mattino, indicando una serata "tranquilla").</li>
+            <li><strong>Oggetto rubato:</strong> +0.5 punti (ottenere un oggetto "sottratto" da un locale, bar, ecc., senza furto ma con furbizia).</li>
+            <li><strong>Fermato sbirri:</strong> -1 punto (essere fermato o controllato dalle forze dell'ordine durante la serata).</li>
+            <li><strong>Nessun contatto per una settimana:</strong> -3 punti (non avere alcun contatto sociale significativo per una settimana).</li>
+            <li><strong>Storia inventata o stravolta:</strong> -3 punti (raccontare bugie o esagerare grossolanamente storie per impressionare).</li>
+            <li><strong>Maleducazione/fuoriluogo:</strong> -2 punti (comportamento maleducato o inappropriato in pubblico).</li>
+            <li><strong>Ghost nuova ragazza dopo 24h:</strong> -2 punti (scomparire senza spiegazioni dopo aver conosciuto una persona interessante).</li>
+            <li><strong>Mancata foto piccione a letto:</strong> -1 punto (dimenticare o non riuscire a fare la foto al piccione in momenti topici).</li>
+            <li><strong>Rissa vinta:</strong> +2 punti (vincere un alterco fisico).</li>
+            <li><strong>Rissa persa:</strong> -4 punti (perdere un alterco fisico).</li>
+            <li><strong>Imbosco barista:</strong> +2 punti (ottenere bevande gratuite o sconti significativi dal barista tramite socializzazione).</li>
+            <li><strong>Uscita piazza Francavilla:</strong> -0.5 punti (uscire o socializzare esclusivamente in Piazza Francavilla, considerata "facile").</li>
+            <li><strong>Assenza cena gruppo:</strong> -1.5 punti (assenza ingiustificata a una cena di gruppo organizzata).</li>
+            <li><strong>Colazione domenica mattina:</strong> +1 punto (partecipare a una colazione di gruppo la domenica mattina, indicando buona socializzazione).</li>
+            <li><strong>Sveglia over 15:</strong> -2 punti (svegliarsi dopo le 15:00, indicando scarso rendimento sociale mattutino).</li>
+            <li><strong>Restare a casa weekend:</strong> -3 punti (restare a casa per un intero weekend senza uscire, tranne per motivi di forza maggiore).</li>
+            <li><strong>Ghostare ragazza interessata:</strong> -1.5 punti (ignorare o evitare una ragazza che ha mostrato chiaramente interesse).</li>
+        </ul>
+    </div>
+
+    <div class="content-card">
+        <h2>Premi in Palio</h2>
+        <p>La competizione è agguerrita, ma la gloria e i premi attendono i più meritevoli del FantaCipponi!</p>
+
+        <h3>Classifica Finale (Fine Anno)</h3>
+        <ul>
+            <li><strong>1° Classificato:</strong></li>
+            <ul>
+                <li><strong>Trofeo FantaCipponi d'Oro</strong> (inciso con il nome del vincitore e l'anno).</li>
+                <li><strong>Cena offerta</strong> dal resto del gruppo nel ristorante scelto dal vincitore.</li>
+                <li><strong>Diritto di vantarsi</strong> in modo perpetuo.</li>
+            </ul>
+            <li><strong>2° Classificato:</strong></li>
+            <ul>
+                <li><strong>Medaglia FantaCipponi d'Argento</strong>.</li>
+                <li><strong>Birra offerta</strong> per un mese dal 1° classificato.</li>
+            </ul>
+        </ul>
+
+        <h3>Premi Settimanali (o a Discrezione)</h3>
+        <ul>
+            <li><strong>Miglior Azione della Settimana:</strong></li>
+            <ul>
+                <li>Riconoscimento speciale e potenziale "bonus" di punti a discrezione degli organizzatori.</li>
+            </ul>
+            <li><strong>Giocatore più Sfortunato:</strong></li>
+            <ul>
+                <li>Un premio di consolazione simbolico (es. un caffè offerto).</li>
+            </ul>
+        </ul>
+        <p>Che la fortuna sia con voi, e che vinca il migliore... o il più scaltro!</p>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 FantaCipponi | powered by Ale & Fede
+    </div>
+</body>
+</html>

@@ -121,15 +121,15 @@
                     <td>
                         <img src="{{ amico.logo_url }}" alt="Logo di {{ amico.nome }}">
                     </td>
-                    <td>{{ amico.nome }}</td>
+                    <td><a href="{{ url_for('dettaglio_giocatore', amico_id=amico.id) }}" style="color: #ffe79b;">{{ amico.nome }}</a></td>
                     <td>{{ amico.punti }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="buttons-area">
-            <a href="{{ url_for('live') }}" class="button-gold">Vai al Live</a>
             <a href="{{ url_for('home') }}" class="button-gold">Torna alla Home</a>
+            <a href="{{ url_for('live') }}" class="button-gold">Vai al Live</a>
         </div>
     </div>
 </body>

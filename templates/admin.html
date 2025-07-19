@@ -34,6 +34,7 @@
             flex-direction: column;
             align-items: center;
             gap: 18px;
+            padding: 0 20px; /* Added padding for smaller screens */
         }
         .admin-form {
             background: rgba(40,18,70,0.88);
@@ -53,7 +54,7 @@
             margin-bottom: 4px;
             letter-spacing: 0.5px;
         }
-        select, button, input[type="text"], input[type="password"] {
+        select, button, input[type="number"] {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
@@ -66,7 +67,7 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             transition: box-shadow 0.18s;
         }
-        select:focus, input:focus {
+        select:focus, input[type="number"]:focus {
             outline: 2px solid #ffe955;
             box-shadow: 0 0 0 2px #ffe95533;
         }
@@ -89,7 +90,7 @@
             font-weight: 700;
             background: #fff;
             border-radius: 7px;
-            margin: 0 auto 18px auto;
+            margin: 18px auto; /* Adjusted margin */
             padding: 8px 18px;
             max-width: 430px;
             text-align: center;
@@ -100,7 +101,18 @@
             font-weight: 700;
             background: #fff;
             border-radius: 7px;
-            margin: 0 auto 18px auto;
+            margin: 18px auto; /* Adjusted margin */
+            padding: 8px 18px;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 1px 8px #23223a24;
+        }
+        .info-message { /* Added info message style */
+            color: #3498db;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 7px;
+            margin: 18px auto;
             padding: 8px 18px;
             max-width: 430px;
             text-align: center;
@@ -112,56 +124,133 @@
             gap: 14px;
             flex-wrap: wrap;
             margin: 16px 0 0 0;
+            width: 100%;
+            max-width: 400px;
         }
         .admin-links a {
             text-decoration: none;
+            flex-grow: 1; /* Allow links to grow and fill space */
+            text-align: center;
         }
-        @media (max-width: 600px) {
-            .admin-form, .success-message, .error-message { max-width: 98vw; }
-            .logo-img { max-width: 94vw; }
-            .admin-title { font-size: 1.4rem; }
+        h2 {
+            text-align: center;
+            color: #ffe955;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .player-list ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .player-list li {
+            background: rgba(40,18,70,0.7);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .player-list li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            flex-grow: 1;
+        }
+        .player-list li a:hover {
+            color: #ffe955;
         }
     </style>
 </head>
 <body>
-    <img src="{{ logo_url }}" alt="Logo FantaCipponi" class="logo-img">
 
-    <h1 class="admin-title">Admin - Assegna Azione a Giocatore</h1>
+    <img src="/static/logo.jpeg" alt="Logo FantaCipponi" class="logo-img">
+    <h1 class="admin-title">Pannello Admin</h1>
 
-    {% if messaggio %}
-        <div class="success-message">{{ messaggio }}</div>
-    {% endif %}
-    {% if errore %}
-        <div class="error-message">{{ errore }}</div>
-    {% endif %}
+    {# Flash messages #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }}-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     <div class="admin-container">
-        <form method="POST" class="admin-form">
-            <label for="giocatore">Giocatore:</label>
-            <select name="giocatore" id="giocatore">
+        {# Assegna Azione Form #}
+        <div class="admin-form">
+            <h2>Assegna Azione a Giocatore</h2>
+            <form method="POST" action="{{ url_for('assegna_azione') }}">
+                <label for="giocatore">Giocatore:</label>
+                <select name="giocatore" id="giocatore">
+                    {% for amico in amici %}
+                        <option value="{{ amico.id }}">{{ amico.nome }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="azioni">Azioni (tieni premuto CTRL/CMD per selezionare più azioni):</label>
+                <select name="azioni" id="azioni" multiple size="10"> {# Added 'multiple' and 'size' attributes #}
+                    {% for azione in azioni %}
+                        <option value="{{ azione.id }}">{{ azione.emoji }} {{ azione.nome }} ({{ '%g'|format(azione.punti) }} pt)</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="button-dark">Assegna Azione(i)</button>
+            </form>
+        </div>
+
+        {# Calcola Settimana Form #}
+        <div class="admin-form">
+            <h2>Gestione Settimana</h2>
+            <p style="text-align: center; color: #ccc;">Settimana Corrente: {{ settimana_corrente }}</p>
+            <form action="{{ url_for('admin_calcola_settimana') }}" method="post">
+                <button type="submit" class="button-dark">Calcola Punti Settimana {{ settimana_corrente }} e passa alla successiva</button>
+            </form>
+
+            <form action="{{ url_for('admin_aggiorna_settimana') }}" method="post">
+                <label for="settimana_corrente_input">Aggiorna Settimana a:</label>
+                <input type="number" name="settimana_corrente" id="settimana_corrente_input" value="{{ settimana_corrente }}" min="1">
+                <button type="submit" class="button-dark">Aggiorna Settimana Corrente</button>
+            </form>
+        </div>
+
+        {# Reset Gioco Form #}
+        <div class="admin-form">
+            <h2>Reset Completo del Gioco</h2>
+            <p style="text-align: center; color: #ccc;">Attenzione: Questa azione eliminerà tutti i punti e le azioni assegnate, resettando il gioco alla settimana 1.</p>
+            <form action="{{ url_for('admin_reset') }}" method="post">
+                <button type="submit" class="button-dark" onclick="return confirm('Sei sicuro di voler resettare il gioco? Questa operazione è irreversibile!')">Reset Gioco</button>
+            </form>
+        </div>
+
+        {# Modifica Azioni per Giocatore (Links to individual player edit pages) #}
+        <div class="admin-form player-list">
+            <h2>Modifica Azioni per Giocatore</h2>
+            <ul>
                 {% for amico in amici %}
-                    <option value="{{ amico.nome }}">{{ amico.nome }}</option>
+                    <li>
+                        <a href="{{ url_for('admin_modifica_azioni', amico_id=amico.id) }}">
+                            {{ amico.nome }}
+                        </a>
+                    </li>
                 {% endfor %}
-            </select>
+            </ul>
+        </div>
 
-            <label for="azione">Azione:</label>
-            <select name="azione" id="azione">
-                {% for azione in azioni %}
-                    <option value="{{ loop.index0 }}">{{ azione.emoji }} {{ azione.nome }} ({{ azione.punti }} pt)</option>
-                {% endfor %}
-            </select>
 
-            <button type="submit" class="button-dark">Assegna Azione</button>
-        </form>
-
-        <form action="{{ url_for('admin_calcola_settimana') }}" method="post" class="admin-form">
-            <button type="submit" class="button-dark">Calcola Settimana</button>
-        </form>
         <div class="admin-links">
             <a href="{{ url_for('logout') }}" class="button-dark">Logout</a>
             <a href="{{ url_for('live') }}" class="button-dark">Vai al Live</a>
-            <a href="{{ url_for('giocatori') }}" class="button-dark">Torna ai Giocatori</a>
+            <a href="{{ url_for('giocatori') }}" class="button-dark">Classifica Generale</a>
         </div>
     </div>
+
 </body>
 </html>
