@@ -3,82 +3,140 @@
 <head>
     <meta charset="UTF-8" />
     <title>Storico di {{ nome }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Urbanist:400,700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 40px auto;
-            max-width: 700px;
-            color: #333;
+            background: #08142a;
+            color: #ffe79b;
+            font-family: 'Urbanist', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 680px;
+            margin: 48px auto 24px auto;
+            padding: 0 16px;
         }
         h1 {
-            text-align: center;
-            color: #222;
-            margin-bottom: 30px;
+            font-size: 2.2em;
+            color: #fff7c2;
+            letter-spacing: 0.05em;
+            margin-bottom: 32px;
+            text-shadow: 0 2px 18px #30230044;
+            text-align: center; /* Centrato */
         }
         .settimana {
-            background: white;
-            margin-bottom: 25px;
-            padding: 20px 24px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px #ccc;
+            background: linear-gradient(90deg, #172956 70%, #274c7d 100%);
+            box-shadow: 0 6px 32px 0 #00000026;
+            border-radius: 22px;
+            margin-bottom: 32px;
+            padding: 28px 26px 18px 26px;
+            transition: box-shadow 0.2s;
+            position: relative;
+            border: 2px solid #ffe79b33;
         }
-        .settimana h2 {
+        .settimana:hover {
+            box-shadow: 0 0 0 3px #ffd90090, 0 7px 44px 0 #00000026;
+            border-color: #ffd90099;
+        }
+        h2 {
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #ffe79b;
+            text-shadow: 0 2px 14px #0007;
             margin-top: 0;
-            color: #005a9c;
         }
         ul {
             list-style: none;
             padding-left: 0;
         }
         li {
-            padding: 6px 0;
-            font-size: 1.05em;
+            font-size: 1.1em;
+            margin: 7px 0;
+            padding: 6px 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 9px;
         }
         .punti-totale {
             font-weight: bold;
             margin-top: 12px;
             font-size: 1.1em;
-            color: #007a00;
+            color: #ffe79b;
+            padding-top: 10px;
+            border-top: 1px solid #ffffff1a;
         }
         a {
-            display: block;
-            margin: 30px auto 0 auto;
-            width: fit-content;
+            background: #ffe79b;
+            color: #223;
+            padding: 8px 22px;
+            border-radius: 22px;
             text-decoration: none;
-            color: #005a9c;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 1em;
-            border: 2px solid #005a9c;
-            padding: 8px 18px;
-            border-radius: 8px;
-            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0 2px 12px #30230033;
+            transition: background 0.13s, color 0.13s;
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
         }
         a:hover {
-            background-color: #005a9c;
-            color: white;
+            background: #fffbe8;
+            color: #be9700;
+        }
+        p {
+            text-align: center;
+            font-style: italic;
+            color: #ffe79b99;
+            margin-top: 50px;
+        }
+        /* Stili aggiunti per l'icona e i punti */
+        .emoji {
+            font-size: 1.32em;
+            filter: drop-shadow(0 1px 1px #0004);
+        }
+        .punti {
+            font-weight: bold;
+            margin-left: auto; /* Allinea a destra i punti */
+            color: #ffe79b;
+        }
+        .punti-up {
+            color: #9cf7ae;
+        }
+        .punti-down {
+            color: #ff9487;
         }
     </style>
 </head>
 <body>
-    <h1>Storico di {{ nome }}</h1>
+    <div class="container">
+        <h1>Storico di {{ nome }}</h1>
 
-    {% if azioni_per_settimana %}
-        {% for settimana, azioni in azioni_per_settimana.items() %}
-            <div class="settimana">
-                <h2>Settimana {{ settimana }}</h2>
-                <ul>
-                    {% for azione in azioni %}
-                        <li>{{ azione.emoji }} {{ azione.nome }}: {{ azione.punti }} punti</li>
-                    {% endfor %}
-                </ul>
-                <div class="punti-totale">Totale settimana: {{ azioni | sum(attribute='punti') }} punti</div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Nessuna azione registrata per questo giocatore.</p>
-    {% endif %}
-
-    <a href="{{ url_for('giocatori') }}">Torna ai giocatori</a>
+        {% if azioni_per_settimana %}
+            {% for settimana, azioni in azioni_per_settimana.items() %}
+                <div class="settimana">
+                    <h2>Settimana {{ settimana }}</h2>
+                    <ul>
+                        {% for azione in azioni %}
+                            <li>
+                                <span class="emoji">{{ azione.emoji }}</span>
+                                <span>{{ azione.nome }}</span>
+                                <span class="punti {% if azione.punti > 0 %}punti-up{% elif azione.punti < 0 %}punti-down{% endif %}">
+                                    ({{ '+' if azione.punti > 0 else ''}}{{ azione.punti }} pt)
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="punti-totale">Totale settimana: {{ azioni | sum(attribute='punti') }} pt</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nessuna azione registrata per questo giocatore.</p>
+        {% endif %}
+        <a href="{{ url_for('giocatori') }}">Torna ai giocatori</a>
+    </div>
 </body>
 </html>
