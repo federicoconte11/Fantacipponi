@@ -49,7 +49,7 @@ azioni_possibili = [
     {"nome": "Serata giocata", "punti": 1, "emoji": "🎉"},
     {"nome": "Serata non giocata", "punti": 0, "emoji": "😴"},
     {"nome": "Sboccata", "punti": -1, "emoji": "🤮"},
-    {"nome": "Chi guida", "punti": 1, "emoji": "🚗"},
+    {"nome": "Chi guida", "punti": 3, "emoji": "🚗"},
     {"nome": "Scopata", "punti": 3, "emoji": "🍑"},
     {"nome": "Pompino", "punti": 2, "emoji": "👄"},
     {"nome": "Larciata", "punti": 1, "emoji": "🍻"},
@@ -325,8 +325,10 @@ def admin_reset():
 
     settimana_corrente = 1
     dati['settimana_corrente'] = settimana_corrente
-    salva_dati(dati)
-
+    
+    # Aggiungi questa riga per resettare il file dati.json
+    salva_dati(dati) 
+    
     db.session.commit()
     flash('Gioco resettato con successo!', 'success')
     return redirect(url_for('admin'))
