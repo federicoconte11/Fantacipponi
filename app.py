@@ -122,12 +122,16 @@ settimana_corrente = dati.get('settimana_corrente', 1)
 def home():
     return render_template('home.html')
 
+#@app.route('/giocatori')
+#def giocatori():
+    #amici = Amico.query.all()
+    #for amico in amici:
+        #amico.punti = sum(a.punti for a in amico.azioni_assegnate)
+    #db.session.commit()
+    #return render_template('giocatori.html', amici=amici)
 @app.route('/giocatori')
 def giocatori():
-    amici = Amico.query.all()
-    for amico in amici:
-        amico.punti = sum(a.punti for a in amico.azioni_assegnate)
-    db.session.commit()
+    amici = Amico.query.order_by(Amico.punti.desc()).all() # Ordina per punti decrescenti
     return render_template('giocatori.html', amici=amici)
 
 @app.route('/giocatore/<int:amico_id>')
